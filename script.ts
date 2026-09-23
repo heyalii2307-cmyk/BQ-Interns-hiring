@@ -361,10 +361,149 @@ function initModals(): void {
     target.value = formatted;
   });
 
+  // ===== Multi-Step Form Controls =====
+  let currentStep = 1;
+  const TOTAL_STEPS = 4;
+  const stepTitles = [
+    "Personal Information",
+    "Contact Information",
+    "Course Details",
+    "About You"
+  ];
+
+  const prevBtn = document.getElementById("form-prev-btn") as HTMLButtonElement | null;
+  const nextBtn = document.getElementById("form-next-btn") as HTMLButtonElement | null;
+  const submitBtn = document.getElementById("register-submit-btn") as HTMLButtonElement | null;
+  const stepIndicator = document.getElementById("form-step-indicator");
+  const stepPercent = document.getElementById("form-step-percent");
+  const progressFill = document.getElementById("form-progress-fill") as HTMLDivElement | null;
+  const progressBar = document.getElementById("form-progress-bar") as HTMLDivElement | null;
+
+  function updateStepUI(): void {
+    for (let i = 1; i <= TOTAL_STEPS; i++) {
+      const stepEl = document.getElementById(`form-step-${i}`) as HTMLDivElement | null;
+      if (stepEl) {
+        if (i === currentStep) {
+          stepEl.hidden = false;
+          stepEl.classList.add("active");
+        } else {
+          stepEl.hidden = true;
+          stepEl.classList.remove("active");
+        }
+      }
+    }
+
+    const percentage = Math.round((currentStep / TOTAL_STEPS) * 100);
+
+    if (stepIndicator) {
+      stepIndicator.textContent = `Step ${currentStep} of ${TOTAL_STEPS} — ${stepTitles[currentStep - 1]}`;
+    }
+    if (stepPercent) {
+      stepPercent.textContent = `${percentage}%`;
+    }
+    if (progressFill) {
+      progressFill.style.width = `${percentage}%`;
+    }
+    if (progressBar) {
+      progressBar.setAttribute("aria-valuenow", String(currentStep));
+    }
+
+    if (prevBtn) {
+      prevBtn.style.display = currentStep > 1 ? "inline-flex" : "none";
+    }
+
+    if (currentStep === TOTAL_STEPS) {
+      if (nextBtn) nextBtn.style.display = "none";
+      if (submitBtn) submitBtn.style.display = "inline-flex";
+    } else {
+      if (nextBtn) nextBtn.style.display = "inline-flex";
+      if (submitBtn) submitBtn.style.display = "none";
+    }
+  }
+
+  function goToStep(stepNum: number): void {
+    if (stepNum < 1 || stepNum > TOTAL_STEPS) return;
+    currentStep = stepNum;
+    updateStepUI();
+
+    if (modalBody) {
+      modalBody.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    setTimeout(() => {
+      if (currentStep === 1) nameInput?.focus();
+      else if (currentStep === 2) addressInput?.focus();
+      else if (currentStep === 3) courseSelect?.focus();
+      else if (currentStep === 4) aboutInput?.focus();
+    }, 100);
+  }
+
+  function validateStep(stepNum: number): boolean {
+    let firstInvalid: HTMLElement | null = null;
+    let hasError = false;
+
+    function checkField(field: ValidatableInput | null): void {
+      if (field) {
+        const isValid = validateField(field);
+        if (!isValid) {
+          hasError = true;
+          if (!firstInvalid) firstInvalid = field;
+        }
+      }
+    }
+
+    if (stepNum === 1) {
+      checkField(nameInput);
+      checkField(dobInput);
+      const isGenderValid = validateGender();
+      if (!isGenderValid) {
+        hasError = true;
+        if (!firstInvalid) {
+          firstInvalid = document.getElementById("gender-male") || genderContainer;
+        }
+      }
+      checkField(cnicInput);
+      checkField(fatherNameInput);
+    } else if (stepNum === 2) {
+      checkField(addressInput);
+      checkField(emailInput);
+      checkField(phoneInput);
+      checkField(guardianPhoneInput);
+    } else if (stepNum === 3) {
+      checkField(courseSelect);
+      checkField(teacherInput);
+      checkField(campusSelect);
+      checkField(marksInput);
+    } else if (stepNum === 4) {
+      checkField(aboutInput);
+    }
+
+    if (hasError && firstInvalid) {
+      firstInvalid.focus?.();
+      firstInvalid.scrollIntoView?.({ behavior: "smooth", block: "center" });
+      return false;
+    }
+
+    return !hasError;
+  }
+
+  nextBtn?.addEventListener("click", () => {
+    if (validateStep(currentStep)) {
+      goToStep(currentStep + 1);
+    }
+  });
+
+  prevBtn?.addEventListener("click", () => {
+    if (currentStep > 1) {
+      goToStep(currentStep - 1);
+    }
+  });
+
   // ===== Register Modal Controls (Full-Screen) =====
   function openRegisterModal(): void {
     form?.reset();
     clearAllErrors();
+    goToStep(1);
     if (registerOverlay) registerOverlay.hidden = false;
     if (modalBody) modalBody.scrollTop = 0;
     document.body.style.overflow = "hidden";
@@ -446,53 +585,23 @@ function initModals(): void {
   form.addEventListener("submit", (e: Event) => {
     e.preventDefault();
 
-    const fieldsToValidate: (ValidatableInput | null)[] = [
-      nameInput,
-      dobInput,
-      addressInput,
-      emailInput,
-      phoneInput,
-      guardianPhoneInput,
-      cnicInput,
-      fatherNameInput,
-      courseSelect,
-      teacherInput,
-      campusSelect,
-      marksInput,
-      aboutInput
-    ];
-
-    let firstInvalid: HTMLElement | null = null;
-    let hasError = false;
-
-    // Check text/select fields
-    fieldsToValidate.forEach((field) => {
-      if (field) {
-        const isValid = validateField(field);
-        if (!isValid) {
-          hasError = true;
-          if (!firstInvalid) {
-            firstInvalid = field;
-          }
-        }
-      }
-    });
-
-    // Check gender
-    const isGenderValid = validateGender();
-    if (!isGenderValid) {
-      hasError = true;
-      if (!firstInvalid) {
-        firstInvalid = document.getElementById("gender-male") || genderContainer;
-      }
-    }
-
-    if (hasError) {
-      if (firstInvalid) {
-        firstInvalid.focus?.();
-        firstInvalid.scrollIntoView({ behavior: "smooth", block: "center" });
+    // If user triggers submit (e.g. Enter key) on an earlier step, validate and advance
+    if (currentStep < TOTAL_STEPS) {
+      if (validateStep(currentStep)) {
+        goToStep(currentStep + 1);
       }
       return;
+    }
+
+    // On the final step, validate all steps from 1 to 4
+    for (let s = 1; s <= TOTAL_STEPS; s++) {
+      if (!validateStep(s)) {
+        if (currentStep !== s) {
+          goToStep(s);
+          validateStep(s);
+        }
+        return;
+      }
     }
 
     // All fields are valid:

@@ -675,6 +675,14 @@ button {
   line-height: 1.5;
 }
 
+.step-cta-btn {
+  margin-top: 14px;
+  align-self: flex-start;
+  width: auto;
+  font-size: 13px;
+  padding: 8px 16px;
+}
+
 .step-arrow {
   align-self: center;
   color: var(--text-muted);
@@ -1240,18 +1248,111 @@ button {
   }
 }
 
-/* Submit Button */
-.modal-submit {
+/* ============ Multi-Step Form Styles ============ */
+.form-progress-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--border-soft);
+  margin-bottom: 4px;
+}
+
+.form-progress-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.form-progress-step {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.3;
+}
+
+.form-progress-percent {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--accent);
+  background: var(--accent-soft);
+  padding: 3px 10px;
+  border-radius: 999px;
+  flex-shrink: 0;
+}
+
+.form-progress-bar {
   width: 100%;
-  padding: 14px 22px;
+  height: 6px;
+  background: var(--surface-muted);
+  border: 1px solid var(--border-soft);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.form-progress-fill {
+  height: 100%;
+  background: var(--accent);
+  border-radius: 999px;
+  transition: width .3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.form-step {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  animation: step-in .2s ease-out;
+}
+
+.form-step[hidden] {
+  display: none !important;
+}
+
+@keyframes step-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Form Step Actions (Next, Prev, Submit) */
+.form-step-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
   margin-top: 8px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border-soft);
+}
+
+.form-step-actions .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-size: 15px;
+  gap: 8px;
+  padding: 13px 24px;
+  font-size: 14.5px;
   font-weight: 600;
-  cursor: pointer;
   border-radius: 12px;
+  cursor: pointer;
+  min-width: 120px;
+}
+
+.form-step-actions #form-next-btn,
+.form-step-actions #register-submit-btn {
+  margin-left: auto;
+}
+
+.modal-submit {
+  width: auto;
+  min-width: 180px;
+  margin-top: 0;
 }
 
 /* Dedicated Success Confirmation Modal Card */

@@ -262,13 +262,15 @@
         <div class="detail-card">
           <span class="info-ico">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="8" r="7"/>
-              <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/>
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+              <circle cx="9" cy="7" r="4"/>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
             </svg>
           </span>
-          <span class="detail-label">Type</span>
-          <h3>Unpaid Internship</h3>
-          <p>Hands-on experience + certificate</p>
+          <span class="detail-label">Extra-Curricular Activities</span>
+          <h3>Skill-Building Activities</h3>
+          <p>Participate in collaborative activities, practical learning, and professional skill development.</p>
         </div>
       </div>
     </section>
@@ -297,6 +299,7 @@
           </div>
           <h3>Open the Registration Form</h3>
           <p>Click the "Register Now" button on the website to open the full-screen application form.</p>
+          <button type="button" class="btn btn-primary btn-sm js-open-register step-cta-btn">Open Registration Form</button>
         </div>
         <span class="step-arrow" aria-hidden="true">→</span>
         <div class="step">
@@ -385,13 +388,6 @@
     <div class="wrap footer-bottom">
       <p>© 2026 Bano Qabil Incubation Center. All rights reserved.</p>
       <div class="footer-socials">
-        <a href="#" aria-label="LinkedIn">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
-            <rect x="2" y="9" width="4" height="12"/>
-            <circle cx="4" cy="4" r="2"/>
-          </svg>
-        </a>
         <a href="#" aria-label="Instagram">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
@@ -433,153 +429,195 @@
 
       <div class="modal-body">
         <form id="register-form" class="modal-form" novalidate>
-          <!-- Section 1: Personal Details -->
-          <div class="form-section-title">
-            <span class="form-section-num">1</span>
-            <span>Personal Details</span>
-          </div>
-
-          <!-- 1. Full Name -->
-          <div class="form-row">
-            <label for="reg-name">Full name <span class="required-star" aria-hidden="true">*</span></label>
-            <input type="text" id="reg-name" name="name" class="input-uppercase" placeholder="e.g. MUHAMMAD ALI" autocomplete="name" required />
-            <span class="form-error" id="error-reg-name" role="alert" aria-live="polite"></span>
-          </div>
-
-          <!-- 2. Date of Birth & 3. Gender -->
-          <div class="form-row form-row-split">
-            <div>
-              <label for="reg-dob">Date of birth <span class="required-star" aria-hidden="true">*</span></label>
-              <input type="date" id="reg-dob" name="dob" required />
-              <span class="form-error" id="error-reg-dob" role="alert" aria-live="polite"></span>
+          <!-- Multi-Step Progress Indicator -->
+          <div class="form-progress-wrap" aria-live="polite">
+            <div class="form-progress-info">
+              <span class="form-progress-step" id="form-step-indicator">Step 1 of 4 — Personal Information</span>
+              <span class="form-progress-percent" id="form-step-percent">25%</span>
             </div>
-            <div class="gender-group" id="gender-group-container">
-              <label id="gender-label">Gender <span class="required-star" aria-hidden="true">*</span></label>
-              <div class="gender-radio-group" role="radiogroup" aria-labelledby="gender-label">
-                <label class="radio-card">
-                  <input type="radio" name="gender" id="gender-male" value="Male" required />
-                  <span>Male</span>
-                </label>
-                <label class="radio-card">
-                  <input type="radio" name="gender" id="gender-female" value="Female" required />
-                  <span>Female</span>
-                </label>
+            <div class="form-progress-bar" role="progressbar" aria-valuenow="1" aria-valuemin="1" aria-valuemax="4" id="form-progress-bar">
+              <div class="form-progress-fill" id="form-progress-fill" style="width: 25%;"></div>
+            </div>
+          </div>
+
+          <!-- Step 1: Personal Information -->
+          <div class="form-step active" id="form-step-1" data-step="1">
+            <div class="form-section-title">
+              <span class="form-section-num">1</span>
+              <span>Personal Information</span>
+            </div>
+
+            <!-- 1. Full Name -->
+            <div class="form-row">
+              <label for="reg-name">Full name <span class="required-star" aria-hidden="true">*</span></label>
+              <input type="text" id="reg-name" name="name" class="input-uppercase" placeholder="e.g. MUHAMMAD ALI" autocomplete="name" required />
+              <span class="form-error" id="error-reg-name" role="alert" aria-live="polite"></span>
+            </div>
+
+            <!-- 2. Date of Birth & 3. Gender -->
+            <div class="form-row form-row-split">
+              <div>
+                <label for="reg-dob">Date of birth <span class="required-star" aria-hidden="true">*</span></label>
+                <input type="date" id="reg-dob" name="dob" required />
+                <span class="form-error" id="error-reg-dob" role="alert" aria-live="polite"></span>
               </div>
-              <span class="form-error" id="error-gender" role="alert" aria-live="polite"></span>
+              <div class="gender-group" id="gender-group-container">
+                <label id="gender-label">Gender <span class="required-star" aria-hidden="true">*</span></label>
+                <div class="gender-radio-group" role="radiogroup" aria-labelledby="gender-label">
+                  <label class="radio-card">
+                    <input type="radio" name="gender" id="gender-male" value="Male" required />
+                    <span>Male</span>
+                  </label>
+                  <label class="radio-card">
+                    <input type="radio" name="gender" id="gender-female" value="Female" required />
+                    <span>Female</span>
+                  </label>
+                </div>
+                <span class="form-error" id="error-gender" role="alert" aria-live="polite"></span>
+              </div>
+            </div>
+
+            <!-- 4. CNIC Number & 5. Father/Guardian Name -->
+            <div class="form-row form-row-split">
+              <div>
+                <label for="reg-cnic">CNIC number <span class="required-star" aria-hidden="true">*</span></label>
+                <input type="text" id="reg-cnic" name="cnic" placeholder="e.g. 42101-1234567-1" maxlength="15" autocomplete="off" required />
+                <span class="form-error" id="error-reg-cnic" role="alert" aria-live="polite"></span>
+              </div>
+              <div>
+                <label for="reg-father-name">Father/Guardian name <span class="required-star" aria-hidden="true">*</span></label>
+                <input type="text" id="reg-father-name" name="father_name" class="input-uppercase" placeholder="e.g. ABDUL REHMAN" required />
+                <span class="form-error" id="error-reg-father-name" role="alert" aria-live="polite"></span>
+              </div>
             </div>
           </div>
 
-          <!-- 4. Address -->
-          <div class="form-row">
-            <label for="reg-address">Address <span class="required-star" aria-hidden="true">*</span></label>
-            <input type="text" id="reg-address" name="address" placeholder="e.g. House #, Street, Area, City" autocomplete="street-address" required />
-            <span class="form-error" id="error-reg-address" role="alert" aria-live="polite"></span>
-          </div>
-
-          <!-- 5. Email Address -->
-          <div class="form-row">
-            <label for="reg-email">Email address <span class="required-star" aria-hidden="true">*</span></label>
-            <input type="email" id="reg-email" name="email" placeholder="e.g. student@example.com" autocomplete="email" required />
-            <span class="form-error" id="error-reg-email" role="alert" aria-live="polite"></span>
-          </div>
-
-          <!-- 6. Phone Number & 7. Guardian Number -->
-          <div class="form-row form-row-split">
-            <div>
-              <label for="reg-phone">Phone number <span class="required-star" aria-hidden="true">*</span></label>
-              <input type="tel" id="reg-phone" name="phone" placeholder="e.g. 0300 1234567 or +923001234567" autocomplete="tel" required />
-              <span class="form-error" id="error-reg-phone" role="alert" aria-live="polite"></span>
+          <!-- Step 2: Contact Information -->
+          <div class="form-step" id="form-step-2" data-step="2" hidden>
+            <div class="form-section-title">
+              <span class="form-section-num">2</span>
+              <span>Contact Information</span>
             </div>
-            <div>
-              <label for="reg-guardian-phone">Guardian number <span class="optional-tag">(optional)</span></label>
-              <input type="tel" id="reg-guardian-phone" name="guardian_phone" placeholder="e.g. 0300 1234567" autocomplete="tel" />
-              <span class="form-error" id="error-reg-guardian-phone" role="alert" aria-live="polite"></span>
-            </div>
-          </div>
 
-          <!-- 8. CNIC Number & 9. Father/Guardian Name -->
-          <div class="form-row form-row-split">
-            <div>
-              <label for="reg-cnic">CNIC number <span class="required-star" aria-hidden="true">*</span></label>
-              <input type="text" id="reg-cnic" name="cnic" placeholder="e.g. 42101-1234567-1" maxlength="15" autocomplete="off" required />
-              <span class="form-error" id="error-reg-cnic" role="alert" aria-live="polite"></span>
+            <!-- 6. Address -->
+            <div class="form-row">
+              <label for="reg-address">Address <span class="required-star" aria-hidden="true">*</span></label>
+              <input type="text" id="reg-address" name="address" placeholder="e.g. House #, Street, Area, City" autocomplete="street-address" required />
+              <span class="form-error" id="error-reg-address" role="alert" aria-live="polite"></span>
             </div>
-            <div>
-              <label for="reg-father-name">Father/Guardian name <span class="required-star" aria-hidden="true">*</span></label>
-              <input type="text" id="reg-father-name" name="father_name" class="input-uppercase" placeholder="e.g. ABDUL REHMAN" required />
-              <span class="form-error" id="error-reg-father-name" role="alert" aria-live="polite"></span>
+
+            <!-- 7. Email Address -->
+            <div class="form-row">
+              <label for="reg-email">Email address <span class="required-star" aria-hidden="true">*</span></label>
+              <input type="email" id="reg-email" name="email" placeholder="e.g. student@example.com" autocomplete="email" required />
+              <span class="form-error" id="error-reg-email" role="alert" aria-live="polite"></span>
+            </div>
+
+            <!-- 8. Phone Number & 9. Guardian Number -->
+            <div class="form-row form-row-split">
+              <div>
+                <label for="reg-phone">Phone number <span class="required-star" aria-hidden="true">*</span></label>
+                <input type="tel" id="reg-phone" name="phone" placeholder="e.g. 0300 1234567 or +923001234567" autocomplete="tel" required />
+                <span class="form-error" id="error-reg-phone" role="alert" aria-live="polite"></span>
+              </div>
+              <div>
+                <label for="reg-guardian-phone">Guardian number <span class="optional-tag">(optional)</span></label>
+                <input type="tel" id="reg-guardian-phone" name="guardian_phone" placeholder="e.g. 0300 1234567" autocomplete="tel" />
+                <span class="form-error" id="error-reg-guardian-phone" role="alert" aria-live="polite"></span>
+              </div>
             </div>
           </div>
 
-          <!-- Section 2: Course Details -->
-          <div class="form-section-title">
-            <span class="form-section-num">2</span>
-            <span>Course Details</span>
-          </div>
-
-          <!-- 10. Course & 11. Teacher Name -->
-          <div class="form-row form-row-split">
-            <div>
-              <label for="reg-course">Course <span class="required-star" aria-hidden="true">*</span></label>
-              <select id="reg-course" name="course" required>
-                <option value="" selected disabled>Select course</option>
-                <option value="Web & Mobile App Development">Web & Mobile App Development</option>
-                <option value="Python & Artificial Intelligence">Python & Artificial Intelligence</option>
-                <option value="Flutter App Development">Flutter App Development</option>
-                <option value="Graphic Designing & UI/UX">Graphic Designing & UI/UX</option>
-                <option value="Digital Marketing & SEO">Digital Marketing & SEO</option>
-                <option value="Cyber Security">Cyber Security</option>
-                <option value="Cloud Computing">Cloud Computing</option>
-                <option value="Amazon & E-Commerce">Amazon & E-Commerce</option>
-                <option value="CIT / IT Essentials">CIT / IT Essentials</option>
-              </select>
-              <span class="form-error" id="error-reg-course" role="alert" aria-live="polite"></span>
+          <!-- Step 3: Course Details -->
+          <div class="form-step" id="form-step-3" data-step="3" hidden>
+            <div class="form-section-title">
+              <span class="form-section-num">3</span>
+              <span>Course Details</span>
             </div>
-            <div>
-              <label for="reg-teacher">Teacher name <span class="required-star" aria-hidden="true">*</span></label>
-              <input type="text" id="reg-teacher" name="teacher" placeholder="e.g. Sir Kashif" required />
-              <span class="form-error" id="error-reg-teacher" role="alert" aria-live="polite"></span>
+
+            <!-- 10. Course & 11. Teacher Name -->
+            <div class="form-row form-row-split">
+              <div>
+                <label for="reg-course">Course <span class="required-star" aria-hidden="true">*</span></label>
+                <select id="reg-course" name="course" required>
+                  <option value="" selected disabled>Select course</option>
+                  <option value="Web & Mobile App Development">Web & Mobile App Development</option>
+                  <option value="Python & Artificial Intelligence">Python & Artificial Intelligence</option>
+                  <option value="Flutter App Development">Flutter App Development</option>
+                  <option value="Graphic Designing & UI/UX">Graphic Designing & UI/UX</option>
+                  <option value="Digital Marketing & SEO">Digital Marketing & SEO</option>
+                  <option value="Cyber Security">Cyber Security</option>
+                  <option value="Cloud Computing">Cloud Computing</option>
+                  <option value="Amazon & E-Commerce">Amazon & E-Commerce</option>
+                  <option value="CIT / IT Essentials">CIT / IT Essentials</option>
+                </select>
+                <span class="form-error" id="error-reg-course" role="alert" aria-live="polite"></span>
+              </div>
+              <div>
+                <label for="reg-teacher">Teacher name <span class="required-star" aria-hidden="true">*</span></label>
+                <input type="text" id="reg-teacher" name="teacher" placeholder="e.g. Sir Kashif" required />
+                <span class="form-error" id="error-reg-teacher" role="alert" aria-live="polite"></span>
+              </div>
+            </div>
+
+            <!-- 12. Campus & 13. Obtained Marks -->
+            <div class="form-row form-row-split">
+              <div>
+                <label for="reg-campus">Campus <span class="required-star" aria-hidden="true">*</span></label>
+                <select id="reg-campus" name="campus" required>
+                  <option value="" selected disabled>Select campus</option>
+                  <option value="Main Campus (Shahrah-e-Faisal)">Main Campus (Shahrah-e-Faisal)</option>
+                  <option value="Gulshan-e-Iqbal Campus">Gulshan-e-Iqbal Campus</option>
+                  <option value="North Nazimabad Campus">North Nazimabad Campus</option>
+                  <option value="Malir Campus">Malir Campus</option>
+                  <option value="Federal B Area Campus">Federal B Area Campus</option>
+                  <option value="Clifton / Defence Campus">Clifton / Defence Campus</option>
+                  <option value="Nazimabad Campus">Nazimabad Campus</option>
+                  <option value="Korangi Campus">Korangi Campus</option>
+                </select>
+                <span class="form-error" id="error-reg-campus" role="alert" aria-live="polite"></span>
+              </div>
+              <div>
+                <label for="reg-marks">Obtained marks <span class="required-star" aria-hidden="true">*</span></label>
+                <input type="number" id="reg-marks" name="marks" min="0" max="1100" step="any" placeholder="e.g. 85 or 85%" required />
+                <span class="form-error" id="error-reg-marks" role="alert" aria-live="polite"></span>
+              </div>
             </div>
           </div>
 
-          <!-- 12. Campus & 13. Obtained Marks -->
-          <div class="form-row form-row-split">
-            <div>
-              <label for="reg-campus">Campus <span class="required-star" aria-hidden="true">*</span></label>
-              <select id="reg-campus" name="campus" required>
-                <option value="" selected disabled>Select campus</option>
-                <option value="Main Campus (Shahrah-e-Faisal)">Main Campus (Shahrah-e-Faisal)</option>
-                <option value="Gulshan-e-Iqbal Campus">Gulshan-e-Iqbal Campus</option>
-                <option value="North Nazimabad Campus">North Nazimabad Campus</option>
-                <option value="Malir Campus">Malir Campus</option>
-                <option value="Federal B Area Campus">Federal B Area Campus</option>
-                <option value="Clifton / Defence Campus">Clifton / Defence Campus</option>
-                <option value="Nazimabad Campus">Nazimabad Campus</option>
-                <option value="Korangi Campus">Korangi Campus</option>
-              </select>
-              <span class="form-error" id="error-reg-campus" role="alert" aria-live="polite"></span>
+          <!-- Step 4: About You -->
+          <div class="form-step" id="form-step-4" data-step="4" hidden>
+            <div class="form-section-title">
+              <span class="form-section-num">4</span>
+              <span>About You</span>
             </div>
-            <div>
-              <label for="reg-marks">Obtained marks <span class="required-star" aria-hidden="true">*</span></label>
-              <input type="number" id="reg-marks" name="marks" min="0" max="1100" step="any" placeholder="e.g. 85 or 85%" required />
-              <span class="form-error" id="error-reg-marks" role="alert" aria-live="polite"></span>
+
+            <!-- 14. About You -->
+            <div class="form-row">
+              <label for="reg-about">About you <span class="required-star" aria-hidden="true">*</span></label>
+              <textarea id="reg-about" name="about" rows="4" placeholder="Briefly introduce yourself, your interests, skills, and goals..." required></textarea>
+              <span class="form-error" id="error-reg-about" role="alert" aria-live="polite"></span>
             </div>
           </div>
 
-          <!-- Section 3: About You -->
-          <div class="form-section-title">
-            <span class="form-section-num">3</span>
-            <span>About You</span>
+          <!-- Step Navigation Controls -->
+          <div class="form-step-actions">
+            <button type="button" class="btn btn-ghost" id="form-prev-btn" style="display: none;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M19 12H5M12 19l-7-7 7-7"/>
+              </svg>
+              Previous
+            </button>
+            <button type="button" class="btn btn-primary" id="form-next-btn">
+              Next
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+              </svg>
+            </button>
+            <button type="submit" class="btn btn-primary modal-submit" id="register-submit-btn" style="display: none;">
+              Submit Application
+            </button>
           </div>
-
-          <!-- 14. About You -->
-          <div class="form-row">
-            <label for="reg-about">About you <span class="required-star" aria-hidden="true">*</span></label>
-            <textarea id="reg-about" name="about" rows="3" placeholder="Briefly introduce yourself, your interests, skills, and goals..." required></textarea>
-            <span class="form-error" id="error-reg-about" role="alert" aria-live="polite"></span>
-          </div>
-
-          <button type="submit" class="btn btn-primary modal-submit" id="register-submit-btn">Submit Application</button>
         </form>
       </div>
     </div>
