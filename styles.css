@@ -1140,6 +1140,40 @@ button {
   transition: border-color .15s ease, background-color .15s ease, box-shadow .15s ease;
 }
 
+/* Phone input with country code */
+.phone-input-wrap {
+  display: flex;
+  align-items: center;
+  position: relative;
+  width: 100%;
+}
+
+.phone-prefix {
+  position: absolute;
+  left: 14px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-muted);
+  pointer-events: none;
+  user-select: none;
+  z-index: 2;
+  letter-spacing: 0.02em;
+}
+
+.phone-input-wrap input {
+  padding-left: 50px !important;
+}
+
+@media (max-width: 600px) {
+  .phone-prefix {
+    font-size: 15px;
+    left: 13px;
+  }
+  .phone-input-wrap input {
+    padding-left: 48px !important;
+  }
+}
+
 .modal-form textarea {
   resize: vertical;
   min-height: 84px;

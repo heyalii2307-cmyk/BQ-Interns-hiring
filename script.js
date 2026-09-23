@@ -139,6 +139,77 @@ function initModals() {
         clearGenderError();
     }
 
+    const STORAGE_DRAFT_KEY = "bano-qabil-registration-draft";
+
+    function saveFormDraft() {
+        try {
+            const selectedGender = document.querySelector('input[name="gender"]:checked')?.value || "";
+            const draft = {
+                name: nameInput?.value || "",
+                dob: dobInput?.value || "",
+                gender: selectedGender,
+                cnic: cnicInput?.value || "",
+                father_name: fatherNameInput?.value || "",
+                address: addressInput?.value || "",
+                email: emailInput?.value || "",
+                phone: phoneInput?.value || "",
+                guardian_phone: guardianPhoneInput?.value || "",
+                course: courseSelect?.value || "",
+                teacher: teacherInput?.value || "",
+                campus: campusSelect?.value || "",
+                marks: marksInput?.value || "",
+                about: aboutInput?.value || "",
+                currentStep: currentStep || 1
+            };
+            const hasData = Object.entries(draft).some(([k, v]) => k !== "currentStep" && v !== "");
+            if (hasData) {
+                localStorage.setItem(STORAGE_DRAFT_KEY, JSON.stringify(draft));
+            }
+        } catch (e) {}
+    }
+
+    function loadFormDraft() {
+        try {
+            const raw = localStorage.getItem(STORAGE_DRAFT_KEY);
+            if (!raw) return false;
+            const draft = JSON.parse(raw);
+            if (!draft || typeof draft !== "object") return false;
+
+            if (draft.name && nameInput) nameInput.value = draft.name;
+            if (draft.dob && dobInput) dobInput.value = draft.dob;
+            if (draft.gender) {
+                genderRadios.forEach((r) => {
+                    r.checked = r.value === draft.gender;
+                });
+            }
+            if (draft.cnic && cnicInput) cnicInput.value = draft.cnic;
+            if (draft.father_name && fatherNameInput) fatherNameInput.value = draft.father_name;
+            if (draft.address && addressInput) addressInput.value = draft.address;
+            if (draft.email && emailInput) emailInput.value = draft.email;
+            if (draft.phone && phoneInput) phoneInput.value = draft.phone;
+            if (draft.guardian_phone && guardianPhoneInput) guardianPhoneInput.value = draft.guardian_phone;
+            if (draft.course && courseSelect) courseSelect.value = draft.course;
+            if (draft.teacher && teacherInput) teacherInput.value = draft.teacher;
+            if (draft.campus && campusSelect) campusSelect.value = draft.campus;
+            if (draft.marks && marksInput) marksInput.value = draft.marks;
+            if (draft.about && aboutInput) aboutInput.value = draft.about;
+
+            if (draft.currentStep && draft.currentStep >= 1 && draft.currentStep <= TOTAL_STEPS) {
+                currentStep = draft.currentStep;
+                updateStepUI();
+            }
+            return true;
+        } catch (e) {
+            return false;
+        }
+    }
+
+    function clearFormDraft() {
+        try {
+            localStorage.removeItem(STORAGE_DRAFT_KEY);
+        } catch (e) {}
+    }
+
     function validateField(input) {
         if (!input) return true;
         const val = input.value ? input.value.trim() : "";
@@ -197,9 +268,22 @@ function initModals() {
                 setFieldError(input, "Please enter your phone number.");
                 return false;
             }
-            const digitsOnly = val.replace(/\D/g, "");
-            if (digitsOnly.length < 9 || digitsOnly.length > 15) {
-                setFieldError(input, "Please enter a valid phone number (e.g. 0300 1234567).");
+            let digitsOnly = val.replace(/\D/g, "");
+            if (digitsOnly.startsWith("92") && digitsOnly.length === 12) {
+                digitsOnly = digitsOnly.substring(2);
+            } else if (digitsOnly.startsWith("0") && digitsOnly.length === 11) {
+                digitsOnly = digitsOnly.substring(1);
+            }
+            if (digitsOnly.length !== 10) {
+                setFieldError(input, "Phone number must contain 10 digits (e.g. 300 1234567).");
+                return false;
+            }
+            if (digitsOnly[0] !== "3") {
+                setFieldError(input, "Pakistani mobile number must start with 3 (e.g. 300 1234567).");
+                return false;
+            }
+            if (/^30{9}$/.test(digitsOnly) || /^(\d)\1{9}$/.test(digitsOnly)) {
+                setFieldError(input, "Please enter a valid phone number.");
                 return false;
             }
             clearFieldError(input);
@@ -208,8 +292,21 @@ function initModals() {
 
         if (input === guardianPhoneInput) {
             if (val) {
-                const digitsOnly = val.replace(/\D/g, "");
-                if (digitsOnly.length < 9 || digitsOnly.length > 15) {
+                let digitsOnly = val.replace(/\D/g, "");
+                if (digitsOnly.startsWith("92") && digitsOnly.length === 12) {
+                    digitsOnly = digitsOnly.substring(2);
+                } else if (digitsOnly.startsWith("0") && digitsOnly.length === 11) {
+                    digitsOnly = digitsOnly.substring(1);
+                }
+                if (digitsOnly.length !== 10) {
+                    setFieldError(input, "Guardian number must contain 10 digits (e.g. 300 1234567).");
+                    return false;
+                }
+                if (digitsOnly[0] !== "3") {
+                    setFieldError(input, "Guardian number must start with 3 (e.g. 300 1234567).");
+                    return false;
+                }
+                if (/^30{9}$/.test(digitsOnly) || /^(\d)\1{9}$/.test(digitsOnly)) {
                     setFieldError(input, "Please enter a valid guardian phone number.");
                     return false;
                 }
@@ -225,7 +322,16 @@ function initModals() {
             }
             const digitsOnly = val.replace(/\D/g, "");
             if (digitsOnly.length !== 13) {
-                setFieldError(input, "CNIC must contain 13 digits (e.g. 42101-1234567-1).");
+                setFieldError(input, "CNIC must contain exactly 13 digits (e.g. 42101-1234567-1).");
+                return false;
+            }
+            if (digitsOnly[0] !== "4") {
+                setFieldError(input, "CNIC must start with 4 (e.g. 42101-1234567-1).");
+                return false;
+            }
+            // Reject dummy / all zeros / repetitive test patterns
+            if (/^40{12}$/.test(digitsOnly) || /^(\d)\1{12}$/.test(digitsOnly) || /^4(\d)\1{11}$/.test(digitsOnly)) {
+                setFieldError(input, "Please enter a valid, non-dummy CNIC number.");
                 return false;
             }
             clearFieldError(input);
@@ -315,7 +421,7 @@ function initModals() {
         return true;
     }
 
-    // Attach real-time validation and error clearing
+    // Attach real-time validation and error clearing + auto-save
     const liveInputs = [
         nameInput, dobInput, addressInput, emailInput, phoneInput,
         guardianPhoneInput, cnicInput, fatherNameInput, teacherInput,
@@ -328,6 +434,7 @@ function initModals() {
             if (container?.classList.contains("has-error")) {
                 validateField(input);
             }
+            saveFormDraft();
         });
     });
 
@@ -337,6 +444,7 @@ function initModals() {
             if (container?.classList.contains("has-error")) {
                 validateField(select);
             }
+            saveFormDraft();
         });
     });
 
@@ -345,10 +453,11 @@ function initModals() {
             if (genderContainer?.classList.contains("has-error")) {
                 validateGender();
             }
+            saveFormDraft();
         });
     });
 
-    // Auto format CNIC: 42101-1234567-1
+    // Auto format CNIC: 42101-1234567-1 (max 13 digits)
     cnicInput?.addEventListener("input", (e) => {
         let val = e.target.value.replace(/\D/g, "");
         if (val.length > 13) val = val.substring(0, 13);
@@ -359,7 +468,31 @@ function initModals() {
             formatted = `${val.substring(0, 5)}-${val.substring(5, 12)}-${val.substring(12, 13)}`;
         }
         e.target.value = formatted;
+        saveFormDraft();
     });
+
+    // Phone formatters for +92 prefix inputs
+    function setupPhoneFormatter(input) {
+        if (!input) return;
+        input.addEventListener("input", (e) => {
+            let val = e.target.value.replace(/\D/g, "");
+            if (val.startsWith("92") && val.length > 10) {
+                val = val.substring(2);
+            } else if (val.startsWith("0") && val.length > 10) {
+                val = val.substring(1);
+            }
+            if (val.length > 10) val = val.substring(0, 10);
+            let formatted = val;
+            if (val.length > 3) {
+                formatted = `${val.substring(0, 3)} ${val.substring(3)}`;
+            }
+            e.target.value = formatted;
+            saveFormDraft();
+        });
+    }
+
+    setupPhoneFormatter(phoneInput);
+    setupPhoneFormatter(guardianPhoneInput);
 
     // ===== Multi-Step Form Controls =====
     let currentStep = 1;
@@ -425,6 +558,7 @@ function initModals() {
         if (stepNum < 1 || stepNum > TOTAL_STEPS) return;
         currentStep = stepNum;
         updateStepUI();
+        saveFormDraft();
 
         if (modalBody) {
             modalBody.scrollTo({ top: 0, behavior: "smooth" });
@@ -501,15 +635,20 @@ function initModals() {
 
     // ===== Register Modal Controls (Full-Screen) =====
     function openRegisterModal() {
-        form.reset();
         clearAllErrors();
-        goToStep(1);
+        const hasDraft = loadFormDraft();
+        if (!hasDraft) {
+            goToStep(1);
+        }
         registerOverlay.hidden = false;
         modalBody.scrollTop = 0;
         document.body.style.overflow = "hidden";
 
         setTimeout(() => {
-            nameInput?.focus();
+            if (currentStep === 1) nameInput?.focus();
+            else if (currentStep === 2) addressInput?.focus();
+            else if (currentStep === 3) courseSelect?.focus();
+            else if (currentStep === 4) aboutInput?.focus();
         }, 100);
     }
 
@@ -600,17 +739,28 @@ function initModals() {
                     goToStep(s);
                     validateStep(s);
                 }
-                return;
+                return; // Submission failed -> data remains in localStorage!
             }
         }
 
-        // All fields are valid:
+        // All fields are valid and submission succeeded:
         // 1. Close the registration form modal cleanly
         closeRegisterModal();
 
-        // 2. Open the dedicated Success Confirmation Modal
+        // 2. Remove saved draft from localStorage ONLY after successful submission
+        clearFormDraft();
+
+        // 3. Reset form and reset step state
+        form.reset();
+        currentStep = 1;
+        updateStepUI();
+
+        // 4. Open the dedicated Success Confirmation Modal
         openSuccessModal();
     });
+
+    // Load any saved draft on initialization
+    loadFormDraft();
 }
 
 function initMobileMenu() {
