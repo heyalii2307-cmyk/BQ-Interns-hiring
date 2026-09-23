@@ -453,11 +453,11 @@
           <!-- Multi-Step Progress Indicator -->
           <div class="form-progress-wrap" aria-live="polite">
             <div class="form-progress-info">
-              <span class="form-progress-step" id="form-step-indicator">Step 1 of 4 — Personal Information</span>
-              <span class="form-progress-percent" id="form-step-percent">25%</span>
+              <span class="form-progress-step" id="form-step-indicator">Step 1 of 3 — Personal Information</span>
+              <span class="form-progress-percent" id="form-step-percent">33%</span>
             </div>
-            <div class="form-progress-bar" role="progressbar" aria-valuenow="1" aria-valuemin="1" aria-valuemax="4" id="form-progress-bar">
-              <div class="form-progress-fill" id="form-progress-fill" style="width: 25%;"></div>
+            <div class="form-progress-bar" role="progressbar" aria-valuenow="1" aria-valuemin="1" aria-valuemax="3" id="form-progress-bar">
+              <div class="form-progress-fill" id="form-progress-fill" style="width: 33%;"></div>
             </div>
           </div>
 
@@ -511,6 +511,13 @@
                 <span class="form-error" id="error-reg-father-name" role="alert" aria-live="polite"></span>
               </div>
             </div>
+
+            <!-- 6. About Yourself (Integrated into Personal Information) -->
+            <div class="form-row">
+              <label for="reg-about">About yourself <span class="required-star" aria-hidden="true">*</span></label>
+              <textarea id="reg-about" name="about" rows="3" placeholder="Briefly introduce yourself, your interests, skills, and goals..." required></textarea>
+              <span class="form-error" id="error-reg-about" role="alert" aria-live="polite"></span>
+            </div>
           </div>
 
           <!-- Step 2: Contact Information -->
@@ -520,21 +527,21 @@
               <span>Contact Information</span>
             </div>
 
-            <!-- 6. Address -->
+            <!-- 7. Address -->
             <div class="form-row">
               <label for="reg-address">Address <span class="required-star" aria-hidden="true">*</span></label>
               <input type="text" id="reg-address" name="address" placeholder="e.g. House #, Street, Area, City" autocomplete="street-address" required />
               <span class="form-error" id="error-reg-address" role="alert" aria-live="polite"></span>
             </div>
 
-            <!-- 7. Email Address -->
+            <!-- 8. Email Address -->
             <div class="form-row">
               <label for="reg-email">Email address <span class="required-star" aria-hidden="true">*</span></label>
               <input type="email" id="reg-email" name="email" placeholder="e.g. student@example.com" autocomplete="email" required />
               <span class="form-error" id="error-reg-email" role="alert" aria-live="polite"></span>
             </div>
 
-            <!-- 8. Phone Number & 9. Guardian Number -->
+            <!-- 9. Phone Number & 10. Guardian Number -->
             <div class="form-row form-row-split">
               <div>
                 <label for="reg-phone">Phone number <span class="required-star" aria-hidden="true">*</span></label>
@@ -555,28 +562,45 @@
             </div>
           </div>
 
-          <!-- Step 3: Course Details -->
+          <!-- Step 3: Course & Campus Details -->
           <div class="form-step" id="form-step-3" data-step="3" hidden>
             <div class="form-section-title">
               <span class="form-section-num">3</span>
-              <span>Course Details</span>
+              <span>Course &amp; Campus Details</span>
             </div>
 
-            <!-- 10. Course & 11. Teacher Name -->
+            <!-- 11. Course & 12. Teacher Name -->
             <div class="form-row form-row-split">
               <div>
                 <label for="reg-course">Course <span class="required-star" aria-hidden="true">*</span></label>
                 <select id="reg-course" name="course" required>
                   <option value="" selected disabled>Select course</option>
-                  <option value="Web & Mobile App Development">Web & Mobile App Development</option>
-                  <option value="Python & Artificial Intelligence">Python & Artificial Intelligence</option>
-                  <option value="Flutter App Development">Flutter App Development</option>
-                  <option value="Graphic Designing & UI/UX">Graphic Designing & UI/UX</option>
-                  <option value="Digital Marketing & SEO">Digital Marketing & SEO</option>
-                  <option value="Cyber Security">Cyber Security</option>
-                  <option value="Cloud Computing">Cloud Computing</option>
-                  <option value="Amazon & E-Commerce">Amazon & E-Commerce</option>
-                  <option value="CIT / IT Essentials">CIT / IT Essentials</option>
+                  <option value="AI for Everyone">AI for Everyone</option>
+                  <option value="Backend Development with Node.js">Backend Development with Node.js</option>
+                  <option value="CIT &amp; Programming Foundations">CIT &amp; Programming Foundations</option>
+                  <option value="Computer Information and Technology (CIT)">Computer Information and Technology (CIT)</option>
+                  <option value="Cyber Security Essentials">Cyber Security Essentials</option>
+                  <option value="Data Analytics &amp; Business Intelligence">Data Analytics &amp; Business Intelligence</option>
+                  <option value="DevOps Foundations">DevOps Foundations</option>
+                  <option value="Digital Content Creation">Digital Content Creation</option>
+                  <option value="Digital Forensic and Ethical Hacking">Digital Forensic and Ethical Hacking</option>
+                  <option value="Digital Journalism">Digital Journalism</option>
+                  <option value="Digital Marketing">Digital Marketing</option>
+                  <option value="E-Commerce Development Mastery">E-Commerce Development Mastery</option>
+                  <option value="E-Commerce Marketplace">E-Commerce Marketplace</option>
+                  <option value="Essentials for AI &amp; Prompt Mastery">Essentials for AI &amp; Prompt Mastery</option>
+                  <option value="Freelancing &amp; Tech Sales Mastery">Freelancing &amp; Tech Sales Mastery</option>
+                  <option value="Frontend Web Development">Frontend Web Development</option>
+                  <option value="Game Development with Blender">Game Development with Blender</option>
+                  <option value="Game Development with Unity">Game Development with Unity</option>
+                  <option value="Generative AI">Generative AI</option>
+                  <option value="Graphic Designing">Graphic Designing</option>
+                  <option value="Mobile Application Development with Flutter">Mobile Application Development with Flutter</option>
+                  <option value="Social Media Management">Social Media Management</option>
+                  <option value="SQA &amp; Test Automation">SQA &amp; Test Automation</option>
+                  <option value="UI/UX Design with Figma">UI/UX Design with Figma</option>
+                  <option value="Video Editing &amp; Animations">Video Editing &amp; Animations</option>
+                  <option value="Web Development with AI">Web Development with AI</option>
                 </select>
                 <span class="form-error" id="error-reg-course" role="alert" aria-live="polite"></span>
               </div>
@@ -587,20 +611,44 @@
               </div>
             </div>
 
-            <!-- 12. Campus & 13. Obtained Marks -->
+            <!-- 13. Campus & 14. Obtained Marks -->
             <div class="form-row form-row-split">
               <div>
                 <label for="reg-campus">Campus <span class="required-star" aria-hidden="true">*</span></label>
                 <select id="reg-campus" name="campus" required>
-                  <option value="" selected disabled>Select campus</option>
-                  <option value="Main Campus (Shahrah-e-Faisal)">Main Campus (Shahrah-e-Faisal)</option>
-                  <option value="Gulshan-e-Iqbal Campus">Gulshan-e-Iqbal Campus</option>
-                  <option value="North Nazimabad Campus">North Nazimabad Campus</option>
-                  <option value="Malir Campus">Malir Campus</option>
-                  <option value="Federal B Area Campus">Federal B Area Campus</option>
-                  <option value="Clifton / Defence Campus">Clifton / Defence Campus</option>
-                  <option value="Nazimabad Campus">Nazimabad Campus</option>
-                  <option value="Korangi Campus">Korangi Campus</option>
+                  <option value="" selected disabled>Select Karachi campus</option>
+                  <option value="Al Huda Campus (North Karachi - Power House)">Al Huda Campus (North Karachi - Power House)</option>
+                  <option value="Al-Aqsa Campus (Gulshan-e-Iqbal 13D)">Al-Aqsa Campus (Gulshan-e-Iqbal 13D)</option>
+                  <option value="Anjuman Complex Campus (Sakhi Hasan)">Anjuman Complex Campus (Sakhi Hasan)</option>
+                  <option value="Askari Degree College (Bahadurabad)">Askari Degree College (Bahadurabad)</option>
+                  <option value="Bahadurabad Campus - Escuela Schooling System">Bahadurabad Campus - Escuela Schooling System</option>
+                  <option value="Bahria Town Campus">Bahria Town Campus</option>
+                  <option value="BanoQabil Shah Latif Town Campus">BanoQabil Shah Latif Town Campus</option>
+                  <option value="Clifton Campus">Clifton Campus</option>
+                  <option value="Dr. Mehmood Hussain Campus (Shahfaisal Town)">Dr. Mehmood Hussain Campus (Shahfaisal Town)</option>
+                  <option value="Etawa Campus (Gulshan-e-Maymar)">Etawa Campus (Gulshan-e-Maymar)</option>
+                  <option value="Garden Campus">Garden Campus</option>
+                  <option value="Gulberg Campus">Gulberg Campus</option>
+                  <option value="Gulshan-e-Hadeed Campus">Gulshan-e-Hadeed Campus</option>
+                  <option value="Gulshan-e-Iqbal Campus - Circle Social Welfare">Gulshan-e-Iqbal Campus - Circle Social Welfare</option>
+                  <option value="HOL Kara Bai Campus (Lyari)">HOL Kara Bai Campus (Lyari)</option>
+                  <option value="Harmain Campus (P.E.C.H.S-6)">Harmain Campus (P.E.C.H.S-6)</option>
+                  <option value="Idara Noor-e-Haq Campus">Idara Noor-e-Haq Campus</option>
+                  <option value="Jamia Millia School Campus (Shah Faisal)">Jamia Millia School Campus (Shah Faisal)</option>
+                  <option value="Jamia Tul Ansar Campus">Jamia Tul Ansar Campus</option>
+                  <option value="KMA Protech Institute Campus">KMA Protech Institute Campus</option>
+                  <option value="Kausar Town Campus (Malir)">Kausar Town Campus (Malir)</option>
+                  <option value="Korangi Allah Wala Town Campus">Korangi Allah Wala Town Campus</option>
+                  <option value="Landhi#6 Campus">Landhi#6 Campus</option>
+                  <option value="Liaquatabad Campus">Liaquatabad Campus</option>
+                  <option value="Metroville Campus">Metroville Campus</option>
+                  <option value="North Karachi Campus - 11L">North Karachi Campus - 11L</option>
+                  <option value="Orangi Town 11 ½ Campus - Salman Farsi">Orangi Town 11 ½ Campus - Salman Farsi</option>
+                  <option value="PIA Society Campus">PIA Society Campus</option>
+                  <option value="Pakistan Central Homeopathic Medical College (Nazimabad)">Pakistan Central Homeopathic Medical College (Nazimabad)</option>
+                  <option value="Piston College Campus">Piston College Campus</option>
+                  <option value="SKIT - Keamari Campus">SKIT - Keamari Campus</option>
+                  <option value="Sherwani Suites Campus">Sherwani Suites Campus</option>
                 </select>
                 <span class="form-error" id="error-reg-campus" role="alert" aria-live="polite"></span>
               </div>
@@ -609,21 +657,6 @@
                 <input type="number" id="reg-marks" name="marks" min="0" max="1100" step="any" placeholder="e.g. 85 or 85%" required />
                 <span class="form-error" id="error-reg-marks" role="alert" aria-live="polite"></span>
               </div>
-            </div>
-          </div>
-
-          <!-- Step 4: About You -->
-          <div class="form-step" id="form-step-4" data-step="4" hidden>
-            <div class="form-section-title">
-              <span class="form-section-num">4</span>
-              <span>About You</span>
-            </div>
-
-            <!-- 14. About You -->
-            <div class="form-row">
-              <label for="reg-about">About you <span class="required-star" aria-hidden="true">*</span></label>
-              <textarea id="reg-about" name="about" rows="4" placeholder="Briefly introduce yourself, your interests, skills, and goals..." required></textarea>
-              <span class="form-error" id="error-reg-about" role="alert" aria-live="polite"></span>
             </div>
           </div>
 

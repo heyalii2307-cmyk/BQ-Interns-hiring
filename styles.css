@@ -1126,7 +1126,7 @@ button {
   font-weight: 700;
 }
 
-.modal-form input,
+.modal-form input:not([type="radio"]):not([type="checkbox"]),
 .modal-form select,
 .modal-form textarea {
   width: 100%;
@@ -1179,7 +1179,7 @@ button {
   min-height: 84px;
 }
 
-.modal-form input:focus,
+.modal-form input:not([type="radio"]):not([type="checkbox"]):focus,
 .modal-form select:focus,
 .modal-form textarea:focus {
   outline: none;
@@ -1194,6 +1194,9 @@ button {
   background-repeat: no-repeat;
   background-position: right 14px center;
   padding-right: 34px;
+  max-width: 100%;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .modal-form select:invalid {
@@ -1202,6 +1205,8 @@ button {
 
 .modal-form select option {
   color: var(--text);
+  white-space: normal;
+  word-wrap: break-word;
 }
 
 /* Section Dividers */
@@ -1257,12 +1262,13 @@ button {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 10px;
+  width: 100%;
 }
 
 .radio-card {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   padding: 11px 14px;
   background: var(--surface-muted);
   border: 1px solid var(--border);
@@ -1271,6 +1277,9 @@ button {
   font-size: 14px;
   font-weight: 500;
   color: var(--text);
+  min-height: 44px;
+  width: 100%;
+  box-sizing: border-box;
   transition: border-color .15s ease, background-color .15s ease, box-shadow .15s ease;
   user-select: none;
 }
@@ -1283,17 +1292,22 @@ button {
 .radio-card input[type="radio"] {
   appearance: none;
   -webkit-appearance: none;
-  width: 16px;
-  height: 16px;
-  border: 2px solid var(--text-muted);
-  border-radius: 50%;
-  margin: 0;
-  padding: 0;
+  width: 18px !important;
+  height: 18px !important;
+  min-width: 18px !important;
+  min-height: 18px !important;
+  max-width: 18px !important;
+  max-height: 18px !important;
+  border: 2px solid var(--text-muted) !important;
+  border-radius: 50% !important;
+  margin: 0 !important;
+  padding: 0 !important;
   cursor: pointer;
   display: grid;
   place-content: center;
-  background: transparent;
-  flex-shrink: 0;
+  background: transparent !important;
+  box-shadow: none !important;
+  flex-shrink: 0 !important;
   transition: border-color .15s ease;
 }
 
@@ -1308,11 +1322,17 @@ button {
 }
 
 .radio-card input[type="radio"]:checked {
-  border-color: var(--accent);
+  border-color: var(--accent) !important;
 }
 
 .radio-card input[type="radio"]:checked::before {
   transform: scale(1);
+}
+
+.radio-card:has(input[type="radio"]:checked) {
+  border-color: var(--accent);
+  background: var(--surface);
+  box-shadow: 0 0 0 2px var(--accent-soft);
 }
 
 /* Validation Error Styles */

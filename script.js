@@ -494,14 +494,78 @@ function initModals() {
     setupPhoneFormatter(phoneInput);
     setupPhoneFormatter(guardianPhoneInput);
 
+    // Centralized Course & Campus Data Structure
+    const BANO_QABIL_COURSES = [
+        "AI for Everyone",
+        "Backend Development with Node.js",
+        "CIT & Programming Foundations",
+        "Computer Information and Technology (CIT)",
+        "Cyber Security Essentials",
+        "Data Analytics & Business Intelligence",
+        "DevOps Foundations",
+        "Digital Content Creation",
+        "Digital Forensic and Ethical Hacking",
+        "Digital Journalism",
+        "Digital Marketing",
+        "E-Commerce Development Mastery",
+        "E-Commerce Marketplace",
+        "Essentials for AI & Prompt Mastery",
+        "Freelancing & Tech Sales Mastery",
+        "Frontend Web Development",
+        "Game Development with Blender",
+        "Game Development with Unity",
+        "Generative AI",
+        "Graphic Designing",
+        "Mobile Application Development with Flutter",
+        "Social Media Management",
+        "SQA & Test Automation",
+        "UI/UX Design with Figma",
+        "Video Editing & Animations",
+        "Web Development with AI"
+    ];
+
+    const BANO_QABIL_CAMPUSES = [
+        "Al Huda Campus (North Karachi - Power House)",
+        "Al-Aqsa Campus (Gulshan-e-Iqbal 13D)",
+        "Anjuman Complex Campus (Sakhi Hasan)",
+        "Askari Degree College (Bahadurabad)",
+        "Bahadurabad Campus - Escuela Schooling System",
+        "Bahria Town Campus",
+        "BanoQabil Shah Latif Town Campus",
+        "Clifton Campus",
+        "Dr. Mehmood Hussain Campus (Shahfaisal Town)",
+        "Etawa Campus (Gulshan-e-Maymar)",
+        "Garden Campus",
+        "Gulberg Campus",
+        "Gulshan-e-Hadeed Campus",
+        "Gulshan-e-Iqbal Campus - Circle Social Welfare",
+        "HOL Kara Bai Campus (Lyari)",
+        "Harmain Campus (P.E.C.H.S-6)",
+        "Idara Noor-e-Haq Campus",
+        "Jamia Millia School Campus (Shah Faisal)",
+        "Jamia Tul Ansar Campus",
+        "KMA Protech Institute Campus",
+        "Kausar Town Campus (Malir)",
+        "Korangi Allah Wala Town Campus",
+        "Landhi#6 Campus",
+        "Liaquatabad Campus",
+        "Metroville Campus",
+        "North Karachi Campus - 11L",
+        "Orangi Town 11 ½ Campus - Salman Farsi",
+        "PIA Society Campus",
+        "Pakistan Central Homeopathic Medical College (Nazimabad)",
+        "Piston College Campus",
+        "SKIT - Keamari Campus",
+        "Sherwani Suites Campus"
+    ];
+
     // ===== Multi-Step Form Controls =====
     let currentStep = 1;
-    const TOTAL_STEPS = 4;
+    const TOTAL_STEPS = 3;
     const stepTitles = [
         "Personal Information",
         "Contact Information",
-        "Course Details",
-        "About You"
+        "Course Details"
     ];
 
     const prevBtn = document.getElementById("form-prev-btn");
@@ -539,6 +603,7 @@ function initModals() {
         }
         if (progressBar) {
             progressBar.setAttribute("aria-valuenow", String(currentStep));
+            progressBar.setAttribute("aria-valuemax", String(TOTAL_STEPS));
         }
 
         if (prevBtn) {
@@ -568,7 +633,6 @@ function initModals() {
             if (currentStep === 1) nameInput?.focus();
             else if (currentStep === 2) addressInput?.focus();
             else if (currentStep === 3) courseSelect?.focus();
-            else if (currentStep === 4) aboutInput?.focus();
         }, 100);
     }
 
@@ -598,6 +662,7 @@ function initModals() {
             }
             checkField(cnicInput);
             checkField(fatherNameInput);
+            checkField(aboutInput);
         } else if (stepNum === 2) {
             checkField(addressInput);
             checkField(emailInput);
@@ -608,8 +673,6 @@ function initModals() {
             checkField(teacherInput);
             checkField(campusSelect);
             checkField(marksInput);
-        } else if (stepNum === 4) {
-            checkField(aboutInput);
         }
 
         if (hasError && firstInvalid) {
@@ -648,7 +711,6 @@ function initModals() {
             if (currentStep === 1) nameInput?.focus();
             else if (currentStep === 2) addressInput?.focus();
             else if (currentStep === 3) courseSelect?.focus();
-            else if (currentStep === 4) aboutInput?.focus();
         }, 100);
     }
 
