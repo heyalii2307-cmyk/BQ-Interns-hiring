@@ -613,7 +613,39 @@ function initModals(): void {
   });
 }
 
+function initMobileMenu(): void {
+  const menuBtn = document.getElementById("mobile-menu-btn") as HTMLButtonElement | null;
+  const drawer = document.getElementById("mobile-nav-drawer") as HTMLDivElement | null;
+  if (!menuBtn || !drawer) return;
+
+  function toggleMenu(open?: boolean): void {
+    if (!drawer || !menuBtn) return;
+    const isOpen = open !== undefined ? open : drawer.hidden;
+    drawer.hidden = !isOpen;
+    menuBtn.classList.toggle("active", isOpen);
+    menuBtn.setAttribute("aria-expanded", String(isOpen));
+  }
+
+  menuBtn.addEventListener("click", (e: MouseEvent) => {
+    e.stopPropagation();
+    toggleMenu();
+  });
+
+  drawer.querySelectorAll("a, button").forEach((item) => {
+    item.addEventListener("click", () => {
+      toggleMenu(false);
+    });
+  });
+
+  document.addEventListener("click", (e: MouseEvent) => {
+    if (!drawer.hidden && !drawer.contains(e.target as Node) && !menuBtn.contains(e.target as Node)) {
+      toggleMenu(false);
+    }
+  });
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   initThemeToggle();
   initModals();
+  initMobileMenu();
 });

@@ -613,7 +613,38 @@ function initModals() {
     });
 }
 
+function initMobileMenu() {
+    const menuBtn = document.getElementById("mobile-menu-btn");
+    const drawer = document.getElementById("mobile-nav-drawer");
+    if (!menuBtn || !drawer) return;
+
+    function toggleMenu(open) {
+        const isOpen = open !== undefined ? open : drawer.hidden;
+        drawer.hidden = !isOpen;
+        menuBtn.classList.toggle("active", isOpen);
+        menuBtn.setAttribute("aria-expanded", String(isOpen));
+    }
+
+    menuBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        toggleMenu();
+    });
+
+    drawer.querySelectorAll("a, button").forEach((item) => {
+        item.addEventListener("click", () => {
+            toggleMenu(false);
+        });
+    });
+
+    document.addEventListener("click", (e) => {
+        if (!drawer.hidden && !drawer.contains(e.target) && !menuBtn.contains(e.target)) {
+            toggleMenu(false);
+        }
+    });
+}
+
 document.addEventListener("DOMContentLoaded", () => {
     initThemeToggle();
     initModals();
+    initMobileMenu();
 });
