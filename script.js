@@ -496,11 +496,62 @@ function initModals() {
         }
 
         // All fields are valid:
-        // 1. Close the registration form modal cleanly
-        closeRegisterModal();
 
-        // 2. Open the dedicated Success Confirmation Modal
-        openSuccessModal();
+        let selectedGender = "";
+        genderRadios.forEach((radio) => {
+            if (radio.checked) selectedGender = radio.value;
+        });
+
+        const formData = {
+            fullName: nameInput.value.trim(),
+            dateOfBirth: dobInput.value,
+            gender: selectedGender,
+            address: addressInput.value.trim(),
+            email: emailInput.value.trim(),
+            phoneNumber: phoneInput.value.trim(),
+            guardianNumber: guardianPhoneInput.value.trim(),
+            cnicNumber: cnicInput.value.trim(),
+            fatherName: fatherNameInput.value.trim(),
+            course: courseSelect.value,
+            teacherName: teacherInput.value.trim(),
+            campus: campusSelect.value,
+            obtainedMarks: marksInput.value.trim(),
+            aboutYou: aboutInput.value.trim()
+        };
+
+        const submitBtn = form.querySelector('button[type="submit"]');
+        const originalBtnText = submitBtn ? submitBtn.textContent : "";
+        if (submitBtn) {
+            submitBtn.textContent = "Submitting...";
+            submitBtn.disabled = true;
+        }
+
+        fetch("http://localhost:5000/api/interns/register", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(formData),
+        })
+        .then(async (response) => {
+            const data = await response.json().catch(() => ({}));
+            if (response.ok) {
+                closeRegisterModal();
+                openSuccessModal();
+            } else {
+                alert("Error: " + (data.message || "Registration failed"));
+            }
+        })
+        .catch((error) => {
+            console.error("Error submitting form:", error);
+            alert("Network error. Please make sure the server is running.");
+        })
+        .finally(() => {
+            if (submitBtn) {
+                submitBtn.textContent = originalBtnText;
+                submitBtn.disabled = false;
+            }
+        });
     });
 }
 
